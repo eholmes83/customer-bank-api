@@ -92,7 +92,7 @@ Request:
 }
 ```
 
-Response (201 Created):
+Response (200 OK):
 ```json
 {
   "id": 1,
