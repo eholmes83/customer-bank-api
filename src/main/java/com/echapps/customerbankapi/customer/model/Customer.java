@@ -1,9 +1,6 @@
 package com.echapps.customerbankapi.customer.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity(name = "customers")
 public class Customer {
@@ -13,6 +10,8 @@ public class Customer {
     private Long id;
     private String firstName;
     private String lastName;
+
+    @Column(unique = true)
     private String email;
     private String phoneNumber;
 

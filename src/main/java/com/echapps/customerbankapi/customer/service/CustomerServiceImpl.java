@@ -5,6 +5,7 @@ import com.echapps.customerbankapi.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -20,8 +21,8 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void createCustomer(Customer customer) {
-        customerRepository.save(customer);
+    public Customer createCustomer(Customer customer) {
+        return customerRepository.save(customer);
     }
 
     @Override
@@ -32,16 +33,21 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void updateCustomer(Customer customer, Long customerId) {
-        Customer updatedCustomer = customerRepository.findById(customerId)
+    public Customer updateCustomer(Customer customer, Long customerId) {
+        return customerRepository.findById(customerId)
+                .map(existing -> {
+                    existing.setFirstName(customer.getFirstName());
+                    existing.setLastName(customer.getLastName());
+                    existing.setEmail(customer.getEmail());
+                    existing.setPhoneNumber(customer.getPhoneNumber());
+                    return customerRepository.save(existing);
+                })
                 .orElseThrow(() -> new RuntimeException("Customer with id: " + customerId + " not found"));
+    }
 
-        updatedCustomer.setFirstName(customer.getFirstName());
-        updatedCustomer.setLastName(customer.getLastName());
-        updatedCustomer.setEmail(customer.getEmail());
-        updatedCustomer.setPhoneNumber(customer.getPhoneNumber());
-
-        customerRepository.save(updatedCustomer);
+    @Override
+    public Optional<Customer> getCustomerById(Long customerId) {
+        return customerRepository.findById(customerId);
     }
 
 }

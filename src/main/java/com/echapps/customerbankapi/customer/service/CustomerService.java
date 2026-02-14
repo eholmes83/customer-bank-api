@@ -3,10 +3,12 @@ package com.echapps.customerbankapi.customer.service;
 import com.echapps.customerbankapi.customer.model.Customer;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CustomerService {
     List<Customer> getAllCustomers();
-    void createCustomer(Customer customer);
+    Customer createCustomer(Customer customer);
     void deleteCustomer(Long id);
-    void updateCustomer(Customer customer, Long customerId);
+    Customer updateCustomer(Customer customer, Long customerId);
+    Optional<Customer> getCustomerById(Long customerId);
 }

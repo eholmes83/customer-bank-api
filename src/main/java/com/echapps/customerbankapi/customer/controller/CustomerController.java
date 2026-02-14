@@ -2,7 +2,6 @@ package com.echapps.customerbankapi.customer.controller;
 
 import com.echapps.customerbankapi.customer.model.Customer;
 import com.echapps.customerbankapi.customer.service.CustomerService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,24 +18,29 @@ public class CustomerController {
 
     @GetMapping("/customers")
     public ResponseEntity<List<Customer>> getAllCustomers() {
-        List<Customer> customers = customerService.getAllCustomers();
-        return new ResponseEntity<>(customers, HttpStatus.OK);
+        return ResponseEntity.ok(customerService.getAllCustomers());
+    }
+
+    @GetMapping("/customers/{customerId}")
+    public ResponseEntity<Customer> getCustomerById(@PathVariable Long customerId) {
+        return customerService.getCustomerById(customerId)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+
     }
 
     @PostMapping("/customers")
-    public ResponseEntity<String> createCustomer(@RequestBody Customer customer) {
-        customerService.createCustomer(customer);
-        return new ResponseEntity<>("Customer created successfully", HttpStatus.CREATED);
+    public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
+        return ResponseEntity.ok(customerService.createCustomer(customer));
     }
 
     @PutMapping("/customers/{customerId}")
-    public ResponseEntity<String> updateCustomer(@RequestBody Customer customer,
+    public ResponseEntity<Customer> updateCustomer(@RequestBody Customer customer,
                                                  @PathVariable Long customerId) {
         try {
-            customerService.updateCustomer(customer, customerId);
-            return new ResponseEntity<>("Customer with id: " + customerId + " updated successfully", HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+            return ResponseEntity.ok(customerService.updateCustomer(customer, customerId));
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
         }
     }
 
@@ -44,9 +48,9 @@ public class CustomerController {
     public ResponseEntity<String> deleteCustomer(@PathVariable Long customerId) {
         try {
             customerService.deleteCustomer(customerId);
-            return new ResponseEntity<>("Customer with id: " + customerId + " deleted successfully", HttpStatus.OK);
+            return ResponseEntity.ok("Customer with id: " + customerId + " deleted successfully");
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
     }
 }
