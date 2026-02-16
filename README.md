@@ -13,6 +13,8 @@ This is a full-stack Spring Boot application that provides a complete CRUD (Crea
 - **Spring Data JPA** - For data persistence
 - **Spring Web MVC** - For REST API endpoints
 - **H2 Database** - In-memory database for development
+- **Lombok 1.18.42** - Reduces boilerplate code (getters, setters, constructors)
+- **Spring Boot DevTools** - For hot reload during development
 - **Maven** - Build and dependency management
 
 ## 🏗️ Architecture
@@ -33,6 +35,8 @@ The application follows a clean layered architecture:
 ## 📊 Data Model
 
 ### Customer Entity
+
+The Customer entity uses **Lombok annotations** (`@Data`, `@NoArgsConstructor`, `@AllArgsConstructor`) to automatically generate getters, setters, constructors, `toString()`, `equals()`, and `hashCode()` methods.
 
 | Field        | Type   | Description                          |
 |-------------|--------|--------------------------------------|
@@ -167,9 +171,22 @@ Response (200 OK):
 
 You can test the API using tools like:
 - **cURL**
-- **Postman**
+- **Postman** (Collection included in `Postman Collection/` directory)
 - **HTTPie**
 - **Insomnia**
+
+### Using the Postman Collection
+
+A ready-to-use Postman collection is included in the project:
+- **Location:** `Postman Collection/Spring Boot Bank Customer API.postman_collection.json`
+- **Import:** Import this file into Postman to access pre-configured requests for all endpoints
+
+The collection includes requests for:
+- Get All Customers
+- Get Customer By ID
+- Create Customer
+- Update Customer
+- Delete Customer
 
 ### Example using cURL
 
@@ -226,6 +243,8 @@ This project demonstrates:
 - Exception handling in REST controllers
 - Dependency injection with Spring
 - H2 database integration
+- Using Lombok to reduce boilerplate code
+- Using Spring Boot DevTools for faster development
 
 ## 📚 Future Enhancements
 
